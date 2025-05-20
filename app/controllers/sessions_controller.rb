@@ -11,8 +11,9 @@ class SessionsController < ApplicationController
     if @user != nil
       # 3. if they know their password -> login is successful
       if BCrypt::Password.new(@user["password"]) == params["password"]
+        cookies["monster"] = "I love cookies"
         flash["notice"] = "Welcome."
-        redirect_to "/companies"
+        redirect_to "/companies?logged_in_user_id=#{@user["id"]}"
       else
         # 4. if the user doesn't exist or they don't know their password -> login fails
         flash["notice"] = "Password incorrect. Try again!"
